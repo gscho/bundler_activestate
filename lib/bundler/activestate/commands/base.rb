@@ -16,7 +16,7 @@ module ActiveState
                                  "add-platform" => [],
                                  "remove-platform" => []
                                }).run
-        state(:import, gemfile_lock)
+        state(:import, gemfile_lock, "--force")
       end
     end
   end
