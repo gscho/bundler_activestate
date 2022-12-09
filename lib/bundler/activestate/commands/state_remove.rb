@@ -2,9 +2,7 @@
 
 module ActiveState
   module Command
-    class StateRemove < Bundler::Plugin::API
-      include ActiveState::State
-
+    class StateRemove < ActiveState::Command::Base
       command "state-remove"
 
       def exec(_command, args)

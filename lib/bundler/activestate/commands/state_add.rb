@@ -2,9 +2,7 @@
 
 module ActiveState
   module Command
-    class StateAdd < Bundler::Plugin::API
-      include ActiveState::State
-
+    class StateAdd < ActiveState::Command::Base
       command "state-add"
 
       def exec(_command, args)
