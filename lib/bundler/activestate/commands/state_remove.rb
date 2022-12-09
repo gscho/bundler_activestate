@@ -6,9 +6,10 @@ module ActiveState
       command "state-remove"
 
       def exec(_command, args)
-        require "bundler/cli/remove"
-
-        Bundler::CLI::Remove.new(args, { "install" => false }).run
+        require "bundler/injector"
+        raise InvalidOption, "Please specify gems to remove." if args.empty?
+        
+        Bundler::Injector.remove(args, {})
         lock_and_import!
       end
     end
