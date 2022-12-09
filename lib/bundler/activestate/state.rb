@@ -34,7 +34,12 @@ module ActiveState
       Open3.popen2e(cmd) do |stdin, stdout_stderr, wait_thread|
         stdin.close_write
         Thread.new do
-          stdout_stderr.each { |l| print l }
+          stdout_stderr.each do |line|
+            print line
+          # rubocop:disable Lint/SuppressedException
+          rescue IOError
+          end
+          # rubocop:enable Lint/SuppressedException
         end
         exit_status = wait_thread.value
       end

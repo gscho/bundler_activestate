@@ -9,7 +9,7 @@ module ActiveState
         options = {
           force: true,
           push: false,
-          gemfile_lock: "Gemfile.lock",
+          gemfile_lock: "Gemfile.lock"
         }
         OptionParser.new do |opts|
           opts.on("-f", "--[no-]force [FLAG]", TrueClass, "Force a state import") do |f|
