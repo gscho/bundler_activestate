@@ -5,7 +5,24 @@ module ActiveState
     class Base < Bundler::Plugin::API
       include ActiveState::State
 
-      def lock_and_import!(gemfile_lock = "Gemfile.lock")
+      def parse_global_opts
+        options = {
+          force: true,
+          push: false,
+          gemfile_lock: "Gemfile.lock",
+        }
+        OptionParser.new do |opts|
+          opts.on("-f", "--[no-]force [FLAG]", TrueClass, "Force a state import") do |f|
+            options[:force] = f.nil? ? true : f
+          end
+          opts.on("-p", "--[no-]push [FLAG]", TrueClass, "Push your latest changes to platform.activestate.com") do |f|
+            options[:push] = f.nil? ? true : f
+          end
+        end.parse!
+        options
+      end
+
+      def lock_and_import!(opts)
         require "bundler/cli/lock"
 
         Bundler::CLI::Lock.new({
@@ -16,7 +33,10 @@ module ActiveState
                                  "add-platform" => [],
                                  "remove-platform" => []
                                }).run
-        state(:import, gemfile_lock, "--force")
+        args = opts[:gemfile_lock].dup
+        args << " --force" if opts[:force]
+        state(:import, args)
+        state(:push) if opts[:push]
       end
     end
   end

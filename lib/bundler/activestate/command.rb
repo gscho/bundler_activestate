@@ -5,6 +5,8 @@ require_relative "commands/state_install"
 require_relative "commands/state_add"
 require_relative "commands/state_remove"
 
+require "optparse"
+
 module ActiveState
   module Command
   end
